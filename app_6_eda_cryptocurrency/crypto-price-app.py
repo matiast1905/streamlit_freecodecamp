@@ -103,7 +103,10 @@ selected_coin = col1.multiselect('Cryptocurrency', sorted_coin, sorted_coin)
 df_selected_coin = df[ (df['coin_symbol'].isin(selected_coin)) ] # Filtering data
 
 ## Sidebar - Number of coins to display
-num_coin = col1.slider('Display Top N Coins', 1, 100, 100)
+if df_selected_coin.shape[0]>1:
+    num_coin = col1.slider('Display Top N Coins', 1, df_selected_coin.shape[0], df_selected_coin.shape[0])
+else:
+    num_coin=1
 df_coins = df_selected_coin[:num_coin]
 
 ## Sidebar - Percent change timeframe

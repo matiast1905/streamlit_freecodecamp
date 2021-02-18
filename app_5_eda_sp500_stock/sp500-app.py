@@ -6,6 +6,7 @@ import seaborn as sns
 import numpy as np
 import yfinance as yf
 
+st.set_page_config(layout="wide")
 st.title('S&P 500 App')
 
 st.markdown("""
@@ -23,6 +24,8 @@ def load_data():
     url = 'https://en.wikipedia.org/wiki/List_of_S%26P_500_companies'
     html = pd.read_html(url, header = 0)
     df = html[0]
+    df.drop(columns="SEC filings",inplace=True)
+    df.rename(columns={"Security":"Company Name"},inplace=True)
     return df
 
 df = load_data()
@@ -66,13 +69,14 @@ data = yf.download(
 def price_plot(symbol):
   df = pd.DataFrame(data[symbol].Close)
   df['Date'] = df.index
+  f=plt.figure()
   plt.fill_between(df.Date, df.Close, color='skyblue', alpha=0.3)
   plt.plot(df.Date, df.Close, color='skyblue', alpha=0.8)
   plt.xticks(rotation=90)
   plt.title(symbol, fontweight='bold')
   plt.xlabel('Date', fontweight='bold')
   plt.ylabel('Closing Price', fontweight='bold')
-  return st.pyplot()
+  return st.pyplot(f)
 
 num_company = st.sidebar.slider('Number of Companies', 1, 5)
 

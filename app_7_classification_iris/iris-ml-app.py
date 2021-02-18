@@ -26,7 +26,7 @@ def user_input_features():
 df = user_input_features()
 
 st.subheader('User Input parameters')
-st.write(df)
+st.dataframe(df)
 
 iris = datasets.load_iris()
 X = iris.data
@@ -38,12 +38,12 @@ clf.fit(X, Y)
 prediction = clf.predict(df)
 prediction_proba = clf.predict_proba(df)
 
-st.subheader('Class labels and their corresponding index number')
-st.write(iris.target_names)
-
 st.subheader('Prediction')
-st.write(iris.target_names[prediction])
+st.write("The iris plant is most likely a **{}**".format(iris.target_names[prediction][0]))
 #st.write(prediction)
 
 st.subheader('Prediction Probability')
-st.write(prediction_proba)
+st.write("The next table shows the probability of each class for the flower")
+proba=pd.DataFrame(prediction_proba*100,columns=iris.target_names)
+proba=proba.astype(str)+"%"
+st.dataframe(proba)
