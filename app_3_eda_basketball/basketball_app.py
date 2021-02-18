@@ -14,7 +14,7 @@ This app performs simple webscraping of NBA player stats data!
 """)
 
 st.sidebar.header('User Input Features')
-selected_year = st.sidebar.selectbox('Year', list(reversed(range(1950,2020))))
+selected_year = st.sidebar.selectbox('Year', list(range(2020,1950,-1)))
 
 # Web scraping of NBA player stats
 @st.cache
@@ -65,4 +65,4 @@ if st.button('Intercorrelation Heatmap'):
     with sns.axes_style("white"):
         f, ax = plt.subplots(figsize=(7, 5))
         ax = sns.heatmap(corr, mask=mask, vmax=1, square=True)
-    st.pyplot()
+    st.pyplot(f)
